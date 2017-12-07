@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+  var req;
+
+  function getInfo(){
+    req = new XMLHttpRequest();
+    req.onreadystatechange = function(){
+      if((req.readyState == 4) && (req.status == 200)){
+        document.getElementById("result").innerHTML = req.responseText;
+      }
+    }
+    // パラメータareaにフォームareaFormのセレクトボックスarea、genreの値を指定して、GETメソッドでNode-RED上のAPIを呼び出す
+    req.open('GET','http://ec2-52-198-38-64.ap-northeast-1.compute.amazonaws.com:1880/nhkapi?area=' + document.requestForm.area.value + "&genre=" + document.requestForm.genre.value,false);
+    req.send(null);
+  }
+  </script>
+</head>
+
+<body>
+  <h1>今日放送のNHK総合番組を検索</h1>
+  <!-- formのアクションで自分自身をリロードさせないため、void(0)を指定 -->
+  <form action="javascript:void(0)" name='requestForm'>
+    ジャンル：
+    <select name="genre">
+      <option value="0000">ニュース／報道(定時・総合)</option>
+      <option value="0100">スポーツ(スポーツニュース)</option>
+      <option value="0300">ドラマ(国内ドラマ)</option>
+    </select>
+    放送地域：
+    <select name="area">
+      <option value="130">東京</option>
+      <option value="010">札幌</option>
+      <option value="470">沖縄</option>
+    </select>
+    <input type="submit" value="送信する"  onclick="getInfo()">
+  </form>
+  <div id="result"><!-- ここに返却されたHTMLを表示 --></div>
+</body>
+</html>

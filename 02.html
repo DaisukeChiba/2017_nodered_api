@@ -1,0 +1,56 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+  var req;
+
+  function accessDb(parm){
+    // データ追加または取得の判定とパラメータの設定
+    var method,url,senddata;    // API呼出時のメソッド、APIのURL、送信パラメータ
+    url = 'http://ec2-52-198-38-64.ap-northeast-1.compute.amazonaws.com:1880/access_db';
+    switch(parm){
+      case 'post':
+        method = 'POST';
+        // POSTメソッドはリクエストボディにパラメータを格納して送信
+        senddata = 'data=' + document.postForm.postData.value;
+        break;
+      case 'get':
+        method = 'GET';
+        // GETメソッドはURLにパラメータを追加して送信
+        senddata = null;
+        url = url + '?data=' + document.getForm.getData.value;
+        break;
+    }
+    // XHRの実行
+    req = new XMLHttpRequest();
+    req.onreadystatechange = checkStatus;
+    req.open(method,url,false);
+    req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    req.send(senddata);
+  }
+
+  function checkStatus(){
+    if((req.readyState == 4) && (req.status == 200)){
+      document.getElementById("result").innerHTML = req.responseText;
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <h1>データベースに入力データを追加</h1>
+  <form action="javascript:void(0)" name='postForm'>
+    <input type="text" name="postData">
+    <input type="submit" value="送信する"  onclick="accessDb('post')">
+  </form>
+
+  <h1>データベースから入力値を含むデータを取得</h1>
+  <form action="javascript:void(0)" name='getForm'>
+    <input type="text" name="getData">
+    <input type="submit" value="送信する"  onclick="accessDb('get')">
+  </form>
+
+  <h1>処理結果</h1>
+  <div id="result"><!-- ここに返却された結果を表示 --></div>
+</body>
+</html>
