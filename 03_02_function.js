@@ -11,6 +11,6 @@ d = ('0' + d).slice(-2);
 var ymd = y + "-" + m + "-" + d;
 
 // NHK Program Genre API問い合わせURLを生成
-msg.url = "http://api.nhk.or.jp/v2/pg/genre/" + encodeURI(msg.payload.area) + "/g1/" + encodeURI(msg.payload.genre) +  "/" + ymd + ".json?key=fT7cm5WSA7YPYYJ5czA6fSVDnczGYH8G";
+msg.url = "http://api.nhk.or.jp/v2/pg/genre/" + encodeURI(msg.payload.area) + "/g1/" + encodeURI(msg.payload.genre) +  "/" + ymd + ".json?key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 return msg;
